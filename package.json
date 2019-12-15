@@ -1,0 +1,26 @@
+{
+  "name": "assignment_backend",
+  "version": "1.0.0",
+  "description": "Assignment on Search Panel",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Babitabisht/Search.git"
+  },
+  "keywords": [
+    "Search",
+    "panel",
+    "HN",
+    "Search",
+    "API"
+  ],
+  "author": "Babita Bisht",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Babitabisht/Search/issues"
+  },
+  "homepage": "https://github.com/Babitabisht/Search#readme"
+}
