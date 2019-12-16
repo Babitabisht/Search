@@ -9,9 +9,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const connectDB = require('./config/db.js');
+app.use(cors());
+
 
 connectDB();
-app.use(cors());
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -19,14 +20,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', require('./routes/index'));
+//app.use('/', require('./routes/users'));
 app.use('/api/user', require('./routes/users'));
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'public/index.html'));
 // });
 
+app.post('/', (req, res) => {
+  console.log('------------hey !');
+});
+
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+app.listen(3000, () => {
   // console.log('running on ort 3000');
 });
