@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { ensureAuthenticated } = require('../helper/auth');
-
+const config = require('config');
+const jwt = require('jsonwebtoken');
 //Load Idea Model
 require('../models/users');
 const Users = mongoose.model('users');
@@ -71,12 +72,41 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res, next) => {
   console.log('################# in Login  POST####################');
   console.log(req.body);
+  const username = req.body.email;
+  const password = req.body.password;
+  console.log(`username=${username}`);
 
-  passport.authenticate('local', {
-    successRedirect: '/api/user/dashboard',
-    failureRedirect: '/api/user/login',
-    failureFlash: true
-  })(req, res, next);
+  Users.findOne({ email: username }, (err, user) => {
+    if (err) throw err;
+    if (!user) {
+      console.log('................');
+
+      return res.json({ success: false, msg: 'User not found ' });
+    }
+    Users.comparePassword(password, user.password, (err, isMatch) => {
+      if (err) throw err;
+      if (isMatch) {
+        console.log('yeah !');
+        // console.log(user)
+        // console.log(config.secret)
+        const token = jwt.sign(user.toJSON(), config.get('secret'), {
+          expiresIn: 604800
+        });
+        console.log(token);
+        res.json({
+          success: true,
+          token: 'Bearer ' + token,
+          user: {
+            id: user._id,
+            username: user.username,
+            email: user.email
+          }
+        });
+      } else {
+        return res.json({ success: false, msg: 'no match' });
+      }
+    });
+  });
 });
 
 router.get('/login', (req, res) => {

@@ -7,7 +7,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const flash = require('connect-flash');
-
+const config = require('config');
 const connectDB = require('./config/db.js');
 app.use(cors());
 
@@ -16,7 +16,7 @@ require('./config/passport')(passport);
 //Express Session Middleware
 app.use(
   session({
-    secret: 'secret',
+    secret: config.get('secret'),
     resave: true,
     saveUninitialized: true
   })

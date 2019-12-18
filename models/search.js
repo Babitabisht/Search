@@ -8,7 +8,11 @@ const SearchSchema = new Schema({
     type: String,
     required: true
   },
-  user: {
+  email: {
+    type: String,
+    required: true
+  },
+  username: {
     type: String,
     required: true
   },
