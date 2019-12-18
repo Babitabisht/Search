@@ -35,9 +35,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use('/', require('./routes/index'));
 app.use('/api/user', require('./routes/users'));
 app.use('/api/search', require('./routes/search'));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(5000, () => {
