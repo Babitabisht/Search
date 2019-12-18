@@ -4,7 +4,8 @@
   "description": "Assignment on Search Panel",
   "main": "app.js",
   "scripts": {
-    "test": "node app"
+    "test": "node app",
+    "start": "node app"
   },
   "repository": {
     "type": "git",
