@@ -29,6 +29,7 @@ app.use(passport.session());
 connectDB();
 
 require('./models/users');
+require('./models/search');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,6 +52,7 @@ app.use(function(req, res, next) {
 });
 //app.use('/', require('./routes/users'));
 app.use('/api/user', require('./routes/users'));
+app.use('/api/search', require('./routes/search'));
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'public/index.html'));
