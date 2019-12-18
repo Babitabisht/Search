@@ -6,7 +6,6 @@ const session = require('express-session');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
-const flash = require('connect-flash');
 const config = require('config');
 const connectDB = require('./config/db.js');
 app.use(cors());
@@ -37,32 +36,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(flash());
-
-//global variables
-app.use(function(req, res, next) {
-  console.log('--------inside middleware---------');
-  console.log(req.flash('success_msg'));
-
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  res.locals.user = req.user || null;
-  next();
-});
-//app.use('/', require('./routes/users'));
 app.use('/api/user', require('./routes/users'));
 app.use('/api/search', require('./routes/search'));
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'public/index.html'));
-// });
-
-app.post('/', cors(), (req, res) => {
-  console.log('------------hey !');
-});
-
-// const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 app.listen(5000, () => {
-  console.log('running on p ort 3000');
+  console.log(`running on port ${PORT}`);
 });

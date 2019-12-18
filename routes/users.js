@@ -6,15 +6,17 @@ const passport = require('passport');
 const { ensureAuthenticated } = require('../helper/auth');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+var log4js = require('log4js');
+var logger = log4js.getLogger();
 //Load Idea Model
 require('../models/users');
 const Users = mongoose.model('users');
 
 //register form post
 router.post('/register', (req, res) => {
-  console.log('################# in register ####################');
+  logger.info('################# in register ####################');
 
-  console.log(req.body);
+  logger.info(req.body);
   let errors = [];
 
   if (req.body.password != req.body.confirmPassword) {
@@ -30,7 +32,7 @@ router.post('/register', (req, res) => {
   Users.findOne({ email: req.body.email }).then(user => {
     if (user) {
       //req.flash('error_msg', 'Email address already exit');
-      console.log('email already registred');
+      logger.info('email already registred');
       res.send({ success: false, message: 'email already exist' });
       // res.redirect('/users/register');
     } else {
@@ -47,10 +49,10 @@ router.post('/register', (req, res) => {
           newUser
             .save()
             .then(user => {
-              console.log('---after then------', user);
+              logger.info('---after then------', user);
 
               //  req.flash('success_msg', 'you are now registered and can log in');
-              console.log('successful');
+              logger.info('successful');
               res.send({
                 success: true,
                 message: 'registration successful, you can now log in !'
@@ -58,7 +60,7 @@ router.post('/register', (req, res) => {
               // res.redirect('/users/login');
             })
             .catch(err => {
-              console.log(err);
+              logger.info(err);
               return;
             });
         });
@@ -70,29 +72,32 @@ router.post('/register', (req, res) => {
 //login form post
 
 router.post('/login', (req, res, next) => {
-  console.log('################# in Login  POST####################');
-  console.log(req.body);
+  logger.info('################# in Login  POST####################');
+  logger.info(req.body);
   const username = req.body.email;
   const password = req.body.password;
-  console.log(`username=${username}`);
+  logger.info(`username=${username}`);
 
   Users.findOne({ email: username }, (err, user) => {
     if (err) throw err;
     if (!user) {
-      console.log('................');
+      logger.info('................');
 
-      return res.json({ success: false, msg: 'User not found ' });
+      return res.json({
+        success: false,
+        message: 'Incorrect email or password'
+      });
     }
     Users.comparePassword(password, user.password, (err, isMatch) => {
       if (err) throw err;
       if (isMatch) {
-        console.log('yeah !');
-        // console.log(user)
-        // console.log(config.secret)
+        logger.info('yeah !');
+        // logger.info(user)
+        // logger.info(config.secret)
         const token = jwt.sign(user.toJSON(), config.get('secret'), {
           expiresIn: 604800
         });
-        console.log(token);
+        logger.info(token);
         res.json({
           success: true,
           token: 'Bearer ' + token,
@@ -103,15 +108,13 @@ router.post('/login', (req, res, next) => {
           }
         });
       } else {
-        return res.json({ success: false, msg: 'no match' });
+        return res.json({
+          success: false,
+          message: 'Incorrect email or password'
+        });
       }
     });
   });
-});
-
-router.get('/login', (req, res) => {
-  console.log('################# in Login  GET####################');
-  res.send({ success: false, message: 'login again !' });
 });
 
 //logout
@@ -120,14 +123,6 @@ router.get('/logout', (req, res) => {
   req.logout();
 
   res.send({ success: true, message: 'logged out successfuly' });
-});
-
-router.get('/dashboard', (req, res) => {
-  console.log(
-    '########################## In dashboard ##############################'
-  );
-
-  res.send({ success: true, message: 'welcome in dashboard' });
 });
 
 module.exports = router;

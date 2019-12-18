@@ -4,13 +4,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { ensureAuthenticated } = require('../helper/auth');
-
+var log4js = require('log4js');
+var logger = log4js.getLogger();
 //Load Idea Model
 require('../models/search');
 const Search = mongoose.model('search');
 
 router.post('/recordSearchItems', ensureAuthenticated, (req, res) => {
-  console.log('-------------------in recordSearchItems----- ');
+  logger.info(' ###########in recordSearchItems ########## ');
 
   const searchItem = new Search({
     searchItem: req.body.item,
@@ -18,24 +19,24 @@ router.post('/recordSearchItems', ensureAuthenticated, (req, res) => {
     email: req.body.user.email
   });
 
-  console.log('--searchItem---', searchItem);
+  logger.info('--searchItem---', searchItem);
 
   searchItem.save().then(item => {
-    console.log('----after storing searchitem-----', item);
+    logger.info('----after storing searchitem-----', item);
 
     res.send({ success: true, message: 'successfuly saved !' });
   });
 });
 
-router.post('/searchHistory', (req, res) => {
-  console.log('-------------------in searchHistory------------- ');
+router.post('/searchHistory', ensureAuthenticated, (req, res) => {
+  logger.info('#####################in searchHistory ################## ');
 
-  console.log(req.body);
+  logger.info(req.body);
 
   Search.find({ username: req.body.username, email: req.body.email }).then(
     items => {
       searchItems = items.map(item => {
-        return item.searchItem;
+        return { searchItem: item.searchItem, date: item.date };
       });
 
       res.send({ success: true, message: searchItems });

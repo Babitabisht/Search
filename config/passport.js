@@ -1,9 +1,5 @@
-const LocalStrategy = require('passport-local').Strategy;
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 require('../models/users');
-
-//Load user Model
 
 const User = mongoose.model('users');
 
@@ -12,16 +8,12 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const config = require('config');
 
 module.exports = function(passport) {
-  console.log('hey1');
-
   let opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opts.secretOrKey = config.get('secret');
 
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
-      console.log('inside');
-      console.log(jwt_payload);
       User.getUserById(jwt_payload._id, (err, user) => {
         if (err) {
           console.log('error in authenticating ');
