@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/', require('./routes/index'));
+app.use('/', require('./routes/index'));
 app.use('/api/user', require('./routes/users'));
 app.use('/api/search', require('./routes/search'));
 
