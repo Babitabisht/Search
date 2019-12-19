@@ -15,7 +15,7 @@ require('./config/passport')(passport);
 //Express Session Middleware
 app.use(
   session({
-    secret: config.get('secret'),
+    secret: process.env.secret,
     resave: true,
     saveUninitialized: true
   })

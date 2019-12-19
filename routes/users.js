@@ -94,7 +94,7 @@ router.post('/login', (req, res, next) => {
         logger.info('yeah !');
         // logger.info(user)
         // logger.info(config.secret)
-        const token = jwt.sign(user.toJSON(), config.get('secret'), {
+        const token = jwt.sign(user.toJSON(), process.env.secret, {
           expiresIn: 604800
         });
         logger.info(token);

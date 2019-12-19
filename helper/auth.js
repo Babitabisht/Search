@@ -8,7 +8,7 @@ module.exports = {
 
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, config.get('secret'), function(err, decoded) {
+      jwt.verify(token, process.env.secret, function(err, decoded) {
         if (err) {
           console.log(err);
           return res.status(401).send({
