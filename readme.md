@@ -11,11 +11,15 @@
    dashboard of your app and that username will be shown on upper left corner of
    app in place of “Search Hacker News”
 1. Make the list item clickable and redirect it to the respective url
-1. Provide pagination options at the end of table. (under development)
+1. Provide pagination options at the end of table. (_**under development**_)
 1. Keep a track of user’s last five searches and its timings and show on the UI in separate history page .
 1. Deploy your application on a cloud platform like Heroku.
 
-###Development insights
+### key feature
+
+**_Search on the basis of urls of the page is implemented_**
+
+### Development insights
 
 ####Backend
 
@@ -31,14 +35,16 @@
 1.  passport
 1.  passport-jwt
 
-####Frontend
+#### Frontend
 
 1. Angular 7 is used as Frontend framework
 
-####Screenshots
+#### Screenshots
 
 ![Register](https://user-images.githubusercontent.com/40245628/71148255-34b20a00-2251-11ea-8e5d-8615e523c70b.png)
 ![Login](https://user-images.githubusercontent.com/40245628/71148260-37acfa80-2251-11ea-813c-364639aa4d99.png)
 ![search1](https://user-images.githubusercontent.com/40245628/71148262-38de2780-2251-11ea-8b6a-98d6c2e86561.png)
 ![search2](https://user-images.githubusercontent.com/40245628/71148265-3bd91800-2251-11ea-9478-042cac2d04c4.png)
 ![search3](https://user-images.githubusercontent.com/40245628/71148267-3da2db80-2251-11ea-9531-cdd2bef0a524.png)
+
+**_Please find the Angular based frontend <a href="https://github.com/Babitabisht/Search_Frontend"> here</a>_**
